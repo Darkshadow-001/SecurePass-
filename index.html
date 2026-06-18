@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>SecurePass - Password Utility</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen flex flex-col overflow-hidden transition-colors duration-300">
+    <canvas id="bg-animation" width="1280" height="1024"></canvas>
+
+    <header class="bg-surface-container-lowest/70 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm top-0 z-50">
+        <div class="flex justify-between items-center w-full px-lg h-16 max-w-container-max mx-auto">
+            <div class="text-headline-sm font-bold text-primary cursor-pointer tracking-tight" onclick="setActiveView('main')">
+                SecurePass <span class="text-secondary opacity-80">AK7</span>
+            </div>
+            <div class="hidden md:flex gap-xl items-center">
+                <button class="py-2 font-label-md text-label-md transition-all hover:text-on-surface text-primary font-bold border-b-2 border-primary" id="nav-dashboard" onclick="setActiveView('main')">Dashboard</button>
+                <button class="transition-colors px-md py-2 font-label-md text-label-md text-on-surface/70 hover:text-on-surface" id="nav-guide" onclick="setActiveView('guide')">Security Guide</button>
+                <button class="text-on-surface/70 hover:text-on-surface transition-colors px-md py-2 font-label-md text-label-md" id="nav-vault" onclick="setActiveView('vault')">Vault</button>
+            </div>
+            <div class="flex items-center gap-md">
+                <button class="material-symbols-outlined text-primary p-sm hover:bg-surface-container-high rounded-full transition-all" onclick="toggleSettings()">settings</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 relative flex items-center justify-center p-md">
+        <div class="absolute top-4 right-4 z-50 w-64 bg-surface-container-high border border-outline-variant/30 rounded-xl shadow-2xl p-lg flex flex-col gap-md fade-enter-active hidden" id="settings-panel">
+            <div class="flex justify-between items-center">
+                <h3 class="font-label-md text-sm uppercase tracking-wider opacity-60">Settings</h3>
+                <button class="material-symbols-outlined text-sm" onclick="toggleSettings()">close</button>
+            </div>
+            <div class="space-y-md">
+                <div class="flex items-center justify-between">
+                    <span class="text-body-md">Advanced Mode</span>
+                    <button class="w-10 h-5 rounded-full bg-surface-container-highest relative transition-colors">
+                        <div class="absolute top-1 left-1 w-3 h-3 rounded-full bg-primary transition-all"></div>
+                    </button>
+                </div>
+                <div class="border-t border-outline-variant pt-md">
+                    <button class="w-full text-left text-body-md text-error flex items-center gap-sm" onclick="logoutVault()">
+                        <span class="material-symbols-outlined text-sm">logout</span> Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content relative z-10 w-full max-w-2xl deep-rainbow-border backdrop-blur-xl border-outline-variant/20 rounded-xl shadow-2xl p-lg flex flex-col gap-xl overflow-hidden min-h-[540px]" id="view-main">
+            <div class="flex p-xs bg-surface-container-high/50 rounded-lg">
+                <button class="flex-1 flex items-center justify-center gap-sm py-2 rounded-md transition-all font-label-md text-label-md text-on-surface/60 hover:bg-surface-container-highest" id="btn-check" onclick="setMode('check')">
+                    <span class="material-symbols-outlined">lock_open</span> Check Strength
+                </button>
+                <button class="flex-1 flex items-center justify-center gap-sm py-2 rounded-md transition-all font-label-md text-label-md mode-active" id="btn-generate" onclick="setMode('generate')">
+                    <span class="material-symbols-outlined">enhanced_encryption</span> Generate Password
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-xl fade-enter-active hidden" id="section-check">
+                <div class="text-center space-y-sm">
+                    <h2 class="font-headline-lg text-headline-md text-primary">Password Strength</h2>
+                    <p class="text-on-surface-variant font-body-md">Analyze your password security against local processing algorithms.</p>
+                </div>
+                <div class="space-y-lg">
+                    <div class="relative">
+                        <input class="w-full h-14 px-lg text-body-lg font-body-lg border-2 border-outline-variant bg-surface-container/50 rounded-lg focus:outline-none focus:border-primary transition-all pr-12 placeholder:text-outline" id="strength-input" placeholder="Enter your password..." type="password">
+                        <button class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline hover:text-primary transition-colors" onclick="toggleVisibility('strength-input')">visibility</button>
+                    </div>
+                    <div class="space-y-sm">
+                        <div class="flex justify-between font-label-md text-label-md px-1">
+                            <span class="text-on-surface-variant" id="strength-label">Security Level: Unknown</span>
+                            <span class="text-outline" id="entropy-label">0 bits</span>
+                        </div>
+                        <div class="flex gap-1.5 h-2 w-full rounded-full overflow-hidden bg-surface-container-high">
+                            <div class="strength-segment h-full flex-1 bg-outline/20" id="meter-1"></div>
+                            <div class="strength-segment h-full flex-1 bg-outline/20" id="meter-2"></div>
+                            <div class="strength-segment h-full flex-1 bg-outline/20" id="meter-3"></div>
+                            <div class="strength-segment h-full flex-1 bg-outline/20" id="meter-4"></div>
+                        </div>
+                    </div>
+                    <div class="p-md bg-primary-container/20 rounded-lg border-l-4 border-primary">
+                        <div class="flex gap-sm">
+                            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">info</span>
+                            <div class="text-body-md text-on-surface-variant leading-relaxed">
+                                <span class="font-bold text-primary">ADVICE:</span> Length is the most critical factor for entropy. Aim for at least 14 characters using a variety of sets.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-xl" id="section-generate">
+                <div class="text-center space-y-sm">
+                    <h2 class="font-headline-lg text-headline-md text-primary">Secure Generator</h2>
+                    <p class="text-on-surface-variant font-body-md">Create cryptographically strong passwords instantly.</p>
+                </div>
+                <div class="space-y-xl">
+                    <div class="flex gap-sm">
+                        <div class="flex-1 h-14 flex items-center px-lg bg-surface-container/50 border border-outline-variant rounded-lg text-body-lg font-mono tracking-widest overflow-hidden overflow-x-auto whitespace-nowrap" id="generated-output"></div>
+                        <button class="w-14 h-14 flex items-center justify-center bg-primary text-on-primary rounded-lg hover:opacity-90 active:scale-95 transition-all shadow-lg" onclick="copyToClipboard()" title="Copy">
+                            <span class="material-symbols-outlined">content_copy</span>
+                        </button>
+                        <button class="w-14 h-14 flex items-center justify-center bg-secondary-container text-on-secondary-container rounded-lg hover:opacity-90 active:scale-95 transition-all shadow-lg" onclick="saveToVault()" title="Save to Vault">
+                            <span class="material-symbols-outlined">save</span>
+                        </button>
+                        <button class="h-14 px-lg bg-primary text-on-primary rounded-lg hover:opacity-90 active:scale-95 transition-all font-label-md text-label-md flex items-center gap-sm shadow-lg" onclick="generatePassword()">
+                            <span class="material-symbols-outlined">refresh</span> NEW
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-lg">
+                        <div class="space-y-sm">
+                            <label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Length</label>
+                            <div class="flex bg-surface-container-high/50 p-1 rounded-lg border border-outline-variant">
+                                <button class="len-btn flex-1 py-1.5 rounded font-label-md text-label-md transition-all hover:bg-surface-container-highest" data-val="8" onclick="setLength(8)">8</button>
+                                <button class="len-btn flex-1 py-1.5 rounded font-label-md text-label-md transition-all bg-primary text-on-primary shadow-sm" data-val="12" onclick="setLength(12)">12</button>
+                                <button class="len-btn flex-1 py-1.5 rounded font-label-md text-label-md transition-all hover:bg-surface-container-highest" data-val="16" onclick="setLength(16)">16</button>
+                            </div>
+                        </div>
+                        <div class="space-y-sm">
+                            <label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Complexity</label>
+                            <div class="flex flex-wrap gap-md pt-2">
+                                <label class="flex items-center gap-xs cursor-pointer group">
+                                    <input checked class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant bg-transparent" id="opt-alpha" type="checkbox" onchange="generatePassword()">
+                                    <span class="text-label-md font-label-md text-on-surface-variant group-hover:text-primary">Letters</span>
+                                </label>
+                                <label class="flex items-center gap-xs cursor-pointer group">
+                                    <input checked class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant bg-transparent" id="opt-num" type="checkbox" onchange="generatePassword()">
+                                    <span class="text-label-md font-label-md text-on-surface-variant group-hover:text-primary">Nums</span>
+                                </label>
+                                <label class="flex items-center gap-xs cursor-pointer group">
+                                    <input checked class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant bg-transparent" id="opt-sym" type="checkbox" onchange="generatePassword()">
+                                    <span class="text-label-md font-label-md text-on-surface-variant group-hover:text-primary">Symbols</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="view-content relative z-10 w-full max-w-2xl deep-rainbow-border backdrop-blur-xl border-outline-variant/20 rounded-xl shadow-2xl p-lg flex flex-col gap-xl overflow-hidden min-h-[540px] fade-enter-active hidden" id="view-guide">
+            <div class="text-center space-y-sm">
+                <h2 class="font-headline-lg text-headline-md text-primary">Security Guide</h2>
+                <p class="text-on-surface-variant font-body-md">Master the art of digital self-defense.</p>
+            </div>
+            <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-lg">
+                <section class="space-y-lg">
+                    <div class="flex gap-lg items-start group">
+                        <div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold shadow-lg group-hover:scale-110 transition-transform">1</div>
+                        <div>
+                            <h3 class="font-headline-md text-lg text-on-surface">Checking Strength</h3>
+                            <p class="text-body-md text-on-surface-variant mt-2 leading-relaxed">Our analyzer uses a modified zxcvbn-like algorithm to determine real-world crack resistance. A password's length contributes exponentially more to security than simple character variety.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-lg items-start group">
+                        <div class="w-10 h-10 rounded-xl bg-secondary text-on-secondary flex items-center justify-center shrink-0 font-bold shadow-lg group-hover:scale-110 transition-transform">2</div>
+                        <div>
+                            <h3 class="font-headline-md text-lg text-on-surface">Generating Passwords</h3>
+                            <p class="text-body-md text-on-surface-variant mt-2 leading-relaxed">For modern systems, 16 characters is the minimum recommended length. Ensure you combine alphanumeric characters with symbols to maximize the search space for attackers.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-lg items-start group">
+                        <div class="w-10 h-10 rounded-xl bg-tertiary text-on-tertiary flex items-center justify-center shrink-0 font-bold shadow-lg group-hover:scale-110 transition-transform">3</div>
+                        <div>
+                            <h3 class="font-headline-md text-lg text-on-surface">Secure Storage</h3>
+                            <p class="text-body-md text-on-surface-variant mt-2 leading-relaxed">Never reuse passwords. Store them in your local Secure Vault. Your PIN acts as a salt for the local decryption process; it is never transmitted.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <button class="w-full py-md bg-surface-container-high rounded-lg font-label-md hover:bg-surface-container-highest transition-colors border border-outline-variant/30 text-primary" onclick="setActiveView('main')">Return to Dashboard</button>
+        </div>
+
+        <div class="view-content hidden relative z-10 w-full max-w-2xl deep-rainbow-border backdrop-blur-xl border-outline-variant/20 rounded-xl shadow-2xl p-lg flex flex-col gap-xl overflow-hidden min-h-[540px] fade-enter-active" id="view-vault">
+            <div class="flex-1 flex flex-col items-center justify-center gap-xl" id="vault-auth">
+                <div class="text-center space-y-sm">
+                    <span class="material-symbols-outlined text-display text-primary" style="font-size: 64px;">encrypted</span>
+                    <h2 class="font-headline-lg text-headline-md text-primary">Secure Vault</h2>
+                    <p class="text-on-surface-variant font-body-md">Authentication required to access local encrypted storage.</p>
+                </div>
+                <div class="w-full max-w-xs space-y-md">
+                    <input class="w-full h-12 px-md border border-outline-variant bg-surface-container/50 rounded-lg focus:outline-none focus:border-primary text-center tracking-[1em] text-xl" id="vault-pin" placeholder="PIN" type="password">
+                    <button class="w-full h-12 bg-primary text-on-primary rounded-lg font-label-md hover:opacity-90 transition-all shadow-lg" onclick="loginVault()">Decrypt &amp; Sign In</button>
+                    <p class="text-xs text-center text-outline opacity-70">Client-side only. Your data never leaves this device.</p>
+                </div>
+            </div>
+            <div class="hidden flex-1 flex flex-col gap-lg" id="vault-content">
+                <div class="flex justify-between items-center">
+                    <h2 class="font-headline-lg text-headline-md text-primary">Stored Credentials</h2>
+                    <button class="px-md py-1.5 rounded-full bg-error/10 text-error font-bold text-xs uppercase tracking-widest hover:bg-error hover:text-on-error transition-all" onclick="logoutVault()">Lock Vault</button>
+                </div>
+                <div class="flex-1 overflow-y-auto custom-scroll pr-2 space-y-sm" id="vault-list">
+                    <div class="text-center py-12 opacity-50 italic text-body-md">Your vault is currently empty.</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-surface-container-lowest/50 backdrop-blur-md border-t border-outline-variant/20 z-50 transition-colors">
+        <div class="flex justify-between items-center w-full px-lg py-4 max-w-container-max mx-auto">
+            <div class="text-label-md font-bold text-primary tracking-wide">SecurePass <span class="opacity-50">v7.0</span></div>
+            <div class="text-on-surface-variant font-label-md text-xs hidden sm:block uppercase tracking-widest">Local Processing • Zero Data Logging</div>
+            <div class="flex gap-lg"></div>
+        </div>
+    </footer>
+
+    <script id="tailwind-config" src="tailwind-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
