@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>AK code foundation | Cyber-Minimalist Academy</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;600&amp;family=Geist:wght@600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#690005",
+                      "error": "#ffb4ab",
+                      "inverse-surface": "#e5e2e3",
+                      "tertiary-fixed-dim": "#edb1ff",
+                      "surface-bright": "#3a393a",
+                      "secondary": "#dcfdff",
+                      "secondary-fixed": "#6ff6ff",
+                      "on-secondary": "#00373a",
+                      "surface-container": "#201f20",
+                      "on-background": "#e5e2e3",
+                      "inverse-on-surface": "#313031",
+                      "tertiary-container": "#f6d0ff",
+                      "on-primary": "#003907",
+                      "tertiary": "#fff7fb",
+                      "tertiary-fixed": "#f9d8ff",
+                      "surface-container-lowest": "#0e0e0f",
+                      "surface": "#131314",
+                      "on-surface": "#e5e2e3",
+                      "primary-fixed-dim": "#00e639",
+                      "on-primary-container": "#007117",
+                      "secondary-fixed-dim": "#00dce6",
+                      "outline-variant": "#3b4b37",
+                      "primary-container": "#00ff41",
+                      "inverse-primary": "#006e16",
+                      "on-tertiary": "#520070",
+                      "background": "#131314",
+                      "surface-variant": "#353436",
+                      "on-primary-fixed-variant": "#00530e",
+                      "secondary-container": "#00f1fd",
+                      "on-surface-variant": "#b9ccb2",
+                      "on-secondary-container": "#006a6f",
+                      "on-error-container": "#ffdad6",
+                      "error-container": "#93000a",
+                      "primary": "#ebffe2",
+                      "surface-dim": "#131314",
+                      "surface-container-highest": "#353436",
+                      "primary-fixed": "#72ff70",
+                      "surface-container-low": "#1c1b1c",
+                      "on-primary-fixed": "#002203",
+                      "on-secondary-fixed": "#002022",
+                      "on-tertiary-fixed-variant": "#6e208c",
+                      "surface-container-high": "#2a2a2b",
+                      "on-secondary-fixed-variant": "#004f53",
+                      "on-tertiary-fixed": "#320046",
+                      "on-tertiary-container": "#8b3fa9",
+                      "surface-tint": "#00e639",
+                      "outline": "#84967e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "gutter": "24px",
+                      "container-max": "1440px",
+                      "unit": "4px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "code-md": ["JetBrains Mono"],
+                      "label-sm": ["JetBrains Mono"],
+                      "headline-lg": ["Geist"],
+                      "headline-xl": ["Geist"],
+                      "headline-lg-mobile": ["Geist"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "code-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+    <style>
+        :root {
+            --accent-glow: #00ff41;
+            --custom-bg: #131314;
+        }
+        body { background-color: var(--custom-bg); transition: background 0.5s ease; background-size: cover; background-position: center; }
+        .accent-border { border-color: var(--accent-glow) !important; }
+        .accent-text { color: var(--accent-glow) !important; }
+        .accent-bg { background-color: var(--accent-glow) !important; }
+        .accent-glow-sm { filter: drop-shadow(0 0 4px var(--accent-glow)); }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0e0e0f; }
+        ::-webkit-scrollbar-thumb { background: #353436; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-glow); }
+
+        .glass {
+            background: rgba(20, 20, 25, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .glass-header {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse-glow { animation: pulse-glow 2s infinite ease-in-out; }
+
+        .loading-dots:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+
+        .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body class="text-on-surface font-body-md overflow-hidden">
+
+<!-- Auth Overlay -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-2xl transition-opacity duration-700" id="auth-overlay">
+    <div class="glass p-12 rounded-xl w-full max-w-md relative z-10 flex flex-col gap-8 text-center border-primary-container/20">
+        <h1 class="font-headline-xl text-headline-xl text-primary-fixed tracking-tight">AK<span class="text-secondary-container">.</span></h1>
+        <div class="space-y-4">
+            <p class="font-code-md text-on-surface-variant">INITIALIZING SECURE SESSION...</p>
+            <input class="w-full bg-surface-container-lowest border border-white/10 rounded-lg px-4 py-3 font-code-md focus:outline-none focus:ring-1 focus:ring-primary-container text-primary-fixed" id="user-input" placeholder="Enter Operator Designation (Your Name)" type="text" onkeydown="if(event.key === 'Enter') handleLogin()"/>
+            <button class="w-full py-3 rounded-lg bg-primary-container text-on-primary font-bold transition-all hover:scale-[1.02] active:scale-95 hover:shadow-[0_0_15px_rgba(0,255,65,0.4)]" onclick="handleLogin()">
+                ESTABLISH CONNECTION
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Permission Overlay -->
+<div class="fixed inset-0 z-[90] hidden flex items-center justify-center bg-background/80 backdrop-blur-md" id="permission-overlay">
+    <div class="glass p-8 rounded-xl max-w-sm text-center space-y-6 border-secondary-container/30">
+        <span class="material-symbols-outlined text-5xl text-secondary-container">security</span>
+        <h3 class="font-headline-lg text-headline-lg-mobile text-on-surface">Access Request</h3>
+        <p class="text-sm text-on-surface-variant">System requires administrative permission to access local environment variables, inspect memory heaps, and monitor code deployment logs.</p>
+        <div class="flex gap-4">
+            <button class="flex-1 py-2 bg-surface-container-high rounded text-sm hover:bg-surface-variant" onclick="closePermission()">DENY</button>
+            <button class="flex-1 py-2 bg-secondary-container text-on-secondary-container rounded font-bold text-sm" onclick="grantPermission()">GRANT PERMISSION</button>
+        </div>
+    </div>
+</div>
+
+<div class="flex h-screen w-full relative">
+    <!-- SideNavBar -->
+    <nav class="hidden md:flex flex-col py-8 z-40 bg-surface-container-lowest/80 backdrop-blur-xl border-r border-white/10 w-[280px] shrink-0">
+        <div class="px-8 mb-12">
+            <h1 class="font-headline-lg text-headline-lg font-bold text-primary accent-text">AK code foundation</h1>
+            <p class="font-label-sm text-label-sm text-on-surface-variant">Cyber-Minimalist Academy</p>
+        </div>
+        <div class="flex flex-col gap-1 px-2" id="side-nav-links"></div>
+        <div class="px-2 mt-4 pt-4 border-t border-white/5">
+            <div class="nav-item flex items-center gap-4 px-6 py-3 cursor-pointer rounded-lg transition-all text-tertiary-fixed-dim hover:bg-tertiary-container/10" id="nav-assistant" onclick="switchModule('mod-assistant')">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+                <span class="font-label-sm">AK AI Assistant</span>
+            </div>
+        </div>
+        <div class="mt-auto px-2 space-y-1">
+            <div class="flex items-center gap-4 text-on-surface-variant px-6 py-3 hover:bg-surface-container-high transition-all cursor-pointer rounded-lg" onclick="switchModule('mod-settings')">
+                <span class="material-symbols-outlined">settings</span>
+                <span class="font-label-sm">Settings</span>
+            </div>
+            <div class="flex items-center gap-4 text-on-surface-variant px-6 py-3 hover:bg-surface-container-high transition-all cursor-pointer rounded-lg" onclick="alert('AK code foundation support system online.')">
+                <span class="material-symbols-outlined">help</span>
+                <span class="font-label-sm">Support</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <!-- TopNavBar -->
+        <header class="fixed top-0 left-0 md:left-[280px] right-0 z-50 h-16 glass-header bg-surface/70 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-6">
+            <div class="flex items-center gap-4">
+                <div class="md:hidden font-bold text-primary-fixed accent-text">AK.</div>
+                <div class="block font-code-md text-on-surface-variant">
+                    Welcome back, <span class="text-secondary font-bold accent-text" id="display-name">OPERATOR</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="flex flex-col items-end gap-1">
+                    <div class="flex justify-between w-32 items-center">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-on-surface-variant">Academy Progress</span>
+                        <span class="text-xs font-code-md text-secondary-container accent-text" id="progress-percent">0%</span>
+                    </div>
+                    <div class="w-32 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-primary-container to-secondary-container transition-all duration-1000 accent-bg" id="progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-on-surface-variant">
+                    <span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-colors" onclick="switchModule('mod-settings')">palette</span>
+                    <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center border border-white/10">
+                        <span class="material-symbols-outlined text-sm">person</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Canvas -->
+        <main class="mt-16 p-6 overflow-y-auto h-full pb-24" id="main-canvas">
+            
+            <!-- 1. Malware & Website Detection -->
+            <section class="module-view flex flex-col gap-6 max-w-5xl mx-auto py-8" id="mod-malware">
+                <div class="glass rounded-xl p-8 space-y-6">
+                    <div class="space-y-2">
+                        <h2 class="font-headline-lg text-headline-lg text-primary-fixed accent-text">1. Malware &amp; Infiltration Guardian</h2>
+                        <p class="text-on-surface-variant font-body-md">Analyze suspicious URLs, pages, and codebases automatically before they hijack accounts.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input class="flex-1 bg-surface-container-lowest border border-white/10 rounded-lg px-4 py-3 font-code-md text-secondary-container focus:ring-1 focus:ring-secondary-container outline-none" id="url-scanner" placeholder="Paste suspicious link or webpage URL here..." type="text"/>
+                        <button class="px-6 py-3 bg-secondary-container text-on-secondary-container font-bold rounded-lg transition-transform active:scale-95 accent-bg text-black" onclick="triggerScanWithPermission('url')">SCAN WEBPAGE</button>
+                    </div>
+                    
+                    <div class="hidden glass bg-surface-container-high/50 p-6 rounded-lg border-l-4 flex items-center justify-between" id="scan-result">
+                        <div class="flex items-center gap-4">
+                            <span class="material-symbols-outlined text-3xl" id="scan-icon">verified_user</span>
+                            <div>
+                                <div class="font-bold text-headline-lg-mobile" id="scan-verdict">CLEAN</div>
+                                <div class="text-xs font-code-md uppercase text-on-surface-variant" id="scan-details">No infiltration vectors detected. Secure session active.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 bg-surface-container-low rounded-lg border border-white/5 cursor-pointer hover:border-white/20" onclick="document.getElementById('url-scanner').value='http://malicious-phishing-login.com/secure/login';">
+                            <div class="text-xs font-bold text-error uppercase mb-1">Click to simulate risky link:</div>
+                            <code class="text-xs font-code-md text-on-surface-variant">http://malicious-phishing-login.com/secure/login</code>
+                        </div>
+                        <div class="p-4 bg-surface-container-low rounded-lg border border-white/5 cursor-pointer hover:border-white/20" onclick="document.getElementById('url-scanner').value='https://github.com/ak-code-foundation/main';">
+                            <div class="text-xs font-bold text-primary-container accent-text uppercase mb-1">Click to simulate clean site:</div>
+                            <code class="text-xs font-code-md text-on-surface-variant">https://github.com/ak-code-foundation/main</code>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. Deep Device Scan -->
+            <section class="module-view hidden flex flex-col gap-6 max-w-5xl mx-auto py-8" id="mod-scan">
+                <div class="glass rounded-xl p-12 flex flex-col items-center text-center gap-8 min-h-[500px]">
+                    <div class="space-y-4">
+                        <h2 class="font-headline-xl text-headline-xl text-secondary-container accent-text">2. Deep Device Sandbox Scan</h2>
+                        <p class="text-on-surface-variant max-w-md mx-auto">Recursive analysis of environment clusters to clean embedded malicious injections.</p>
+                    </div>
+                    <div class="relative w-48 h-48 flex items-center justify-center">
+                        <svg class="w-full h-full -rotate-90">
+                            <circle class="text-surface-container-highest" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="4"></circle>
+                            <circle class="text-primary-fixed-dim transition-all duration-300 accent-text" cx="96" cy="96" fill="transparent" id="scan-progress-circle" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="552.92" stroke-width="8"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                            <span class="font-headline-lg text-headline-lg font-bold text-primary-fixed-dim accent-text" id="scan-val">0%</span>
+                            <span class="material-symbols-outlined text-primary-fixed-dim animate-pulse accent-text">radar</span>
+                        </div>
+                    </div>
+                    <button class="px-10 py-4 rounded-full bg-surface-container-high border text-primary-fixed-dim font-bold hover:bg-primary-fixed-dim/10 transition-all accent-border accent-text" id="start-scan-btn" onclick="triggerScanWithPermission('deep')">START DEEP DEVICE SCAN</button>
+                    <div class="w-full max-w-2xl bg-surface-container-lowest border border-white/5 rounded-xl h-48 p-4 font-code-md text-xs text-left overflow-y-auto space-y-1 text-on-surface-variant" id="scan-logs">
+                        <div class="text-primary-fixed-dim/50 accent-text">[SYSTEM READY] Waiting for Operator commands...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Deep Learning in Coding & Deployment -->
+            <section class="module-view hidden flex flex-col gap-6 max-w-5xl mx-auto py-8" id="mod-learning">
+                <div class="glass rounded-xl p-8 space-y-6">
+                    <div class="space-y-2">
+                        <h2 class="font-headline-lg text-headline-lg text-primary-fixed accent-text">3. Deep Learning Center &amp; Mysteries</h2>
+                        <p class="text-on-surface-variant font-body-md">Master code structures, automated pipelines, deployment strategies, and resolve architectural anomalies.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="learning-tabs">
+                        <button class="p-4 bg-surface-container-high border-b-2 accent-border text-left rounded-t-lg font-bold" onclick="showTopic('deploy')">Deployment Roadmap</button>
+                        <button class="p-4 bg-surface-container-low text-left rounded-t-lg font-bold opacity-60" onclick="showTopic('mysteries')">Deep Code Mysteries</button>
+                        <button class="p-4 bg-surface-container-low text-left rounded-t-lg font-bold opacity-60" onclick="showTopic('beginner')">Beginner Foundations</button>
+                    </div>
+
+                    <div class="p-6 bg-surface-container-low rounded-b-xl border border-white/5" id="learning-content">
+                        <!-- Default Topic -->
+                        <div class="space-y-4" id="topic-deploy">
+                            <h3 class="text-xl font-bold accent-text">CI/CD Production Deployment Pipeline</h3>
+                            <p class="text-sm text-on-surface-variant">Learn how modern web applications route from local terminal pushes to dynamic cloud infrastructures safely.</p>
+                            <pre class="bg-black/40 p-4 rounded text-xs font-code-md text-primary-container accent-text">
+# Step 1: Secure Code Sanitation Check
+npm run audit --production
+
+# Step 2: Continuous Integration Build Stage
+docker build -t ak-foundation/security-app:latest .
+
+# Step 3: Deployment Verification
+kubernetes apply -f ./deployment/production.yaml</pre>
+                            <button class="px-4 py-2 bg-primary-container text-on-primary font-bold text-xs rounded accent-bg text-black" onclick="updateProgress(10); alert('Deployment concept marked complete! +10% Progress added.');">MARK MODULE COMPLETE</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Question & Answers + Quizzes -->
+            <section class="module-view hidden flex flex-col gap-6 max-w-6xl mx-auto py-8" id="mod-forum">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Quiz Section -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-headline-lg text-headline-lg text-tertiary-fixed-dim accent-text">4. Assessment Core &amp; Testing</h3>
+                            <div class="px-3 py-1 bg-tertiary-container/20 text-tertiary-fixed-dim rounded-full text-xs font-bold border border-tertiary-fixed-dim/30 accent-text">
+                                Task <span id="current-q-num">1</span> / 4
+                            </div>
+                        </div>
+                        <div class="space-y-6" id="quiz-container">
+                            <div class="glass p-8 rounded-xl space-y-6 quiz-card transition-all duration-300">
+                                <div class="text-xl font-bold text-on-surface" id="quiz-question-text">Initializing parameters...</div>
+                                <div class="grid gap-3" id="quiz-options"></div>
+                                <div class="hidden p-6 rounded-lg border border-white/5 bg-surface-container-low text-sm leading-relaxed transition-all" id="quiz-explanation"></div>
+                                <div class="flex justify-end hidden" id="quiz-next-btn">
+                                    <button class="px-6 py-2 bg-primary-container text-on-primary font-bold rounded flex items-center gap-2 accent-bg text-black" onclick="loadNextQuestion()">
+                                        NEXT CASE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Forum Section -->
+                    <div class="lg:col-span-1 glass flex flex-col rounded-xl overflow-hidden border-white/10 max-h-[700px]">
+                        <div class="p-4 bg-surface-container-high font-bold border-b border-white/10 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary-container accent-text">forum</span>
+                            FORUM QUERY BOARD
+                        </div>
+                        <div class="flex-1 p-6 space-y-4 overflow-y-auto" id="forum-list">
+                            <div class="flex flex-col gap-1">
+                                <div class="text-[10px] text-on-surface-variant font-code-md">[ARCHITECT_BOT]</div>
+                                <div class="bg-surface-container-low p-3 rounded-lg rounded-tl-none border border-white/5 text-sm">Welcome to the foundation forum. Post questions or paste bug snippets below.</div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-surface-container-lowest border-t border-white/10 flex gap-2">
+                            <input class="flex-1 bg-surface-container-low border border-white/10 rounded px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-primary-fixed-dim" id="forum-input" placeholder="Ask or post code..." type="text" onkeydown="if(event.key === 'Enter') submitForum()"/>
+                            <button class="material-symbols-outlined bg-primary-fixed-dim text-on-primary-fixed p-2 rounded accent-bg text-black" onclick="submitForum()">send</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AK AI Assistant -->
+            <section class="module-view hidden flex flex-col gap-6 max-w-4xl mx-auto py-8" id="mod-assistant">
+                <div class="glass rounded-xl overflow-hidden flex flex-col h-[600px] border-tertiary-fixed-dim/20">
+                    <div class="bg-tertiary-container/10 p-6 flex items-center gap-4 border-b border-white/10">
+                        <div class="w-12 h-12 rounded-full bg-tertiary-fixed-dim flex items-center justify-center accent-bg">
+                            <span class="material-symbols-outlined text-on-tertiary text-2xl text-black">school</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-tertiary-fixed-dim accent-text">AK AI Expert</h3>
+                            <p class="text-xs text-on-surface-variant">Malware &amp; Engineering Processor v2.0</p>
+                        </div>
+                    </div>
+                    <div class="flex-1 p-8 overflow-y-auto space-y-6" id="teacher-chat-history">
+                        <div class="flex flex-col gap-2 items-start max-w-[85%]">
+                            <div class="text-[10px] text-tertiary-fixed-dim font-bold accent-text">AK ENGINE</div>
+                            <div class="bg-surface-container-low p-4 rounded-2xl rounded-tl-none border border-white/10 text-sm leading-relaxed">
+                                Greetings, Operator. I can assist you with buffer overflow theory, Trojan tracking, source layout analysis, and complete device scan validation. What architecture are we auditing today?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 bg-surface-container-low/50 border-t border-white/10 space-y-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button class="px-3 py-1 bg-surface-container-high rounded-full text-xs hover:border-white transition-all border border-transparent" onclick="teacherResponse('explain_buffer')">Explain Buffer Overflows</button>
+                            <button class="px-3 py-1 bg-surface-container-high rounded-full text-xs hover:border-white transition-all border border-transparent" onclick="teacherResponse('scold_laziness')">Malware script samples</button>
+                            <button class="px-3 py-1 bg-surface-container-high rounded-full text-xs hover:border-white transition-all border border-transparent" onclick="teacherResponse('positive')">How to deploy securely?</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <input class="flex-1 bg-surface-container-lowest border border-white/10 rounded px-4 py-3 text-sm outline-none focus:ring-1 focus:ring-tertiary-fixed-dim" id="teacher-input" placeholder="Type engineering query..." type="text" onkeydown="if(event.key === 'Enter') teacherChat()"/>
+                            <button class="material-symbols-outlined bg-tertiary-fixed-dim text-on-tertiary-fixed p-3 rounded accent-bg text-black" onclick="teacherChat()">send</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Workspace Configuration -->
+            <section class="module-view hidden flex flex-col gap-6 max-w-3xl mx-auto py-8" id="mod-settings">
+                <div class="glass p-8 rounded-xl space-y-8">
+                    <h2 class="font-headline-lg text-headline-lg text-primary-fixed accent-text">Workspace Configuration</h2>
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="font-label-sm text-on-surface-variant uppercase tracking-wider text-xs">DYNAMIC COLOR SCHEME CUSTOMIZATION</label>
+                            <div class="flex gap-4">
+                                <button class="w-12 h-12 rounded-full bg-[#00ff41] border-2 border-white/40 flex items-center justify-center font-bold text-black" onclick="setTheme('green')">GRN</button>
+                                <button class="w-12 h-12 rounded-full bg-[#00dce6] border border-white/10 flex items-center justify-center font-bold text-black" onclick="setTheme('cyan')">CYN</button>
+                                <button class="w-12 h-12 rounded-full bg-[#edb1ff] border border-white/10 flex items-center justify-center font-bold text-black" onclick="setTheme('purple')">PRP</button>
+                            </div>
+                        </div>
+                        <div class="space-y-2 pt-4 border-t border-white/5">
+                            <label class="font-label-sm text-on-surface-variant uppercase tracking-wider text-xs">BACKGROUND COLOR ALTERATION</label>
+                            <div class="grid grid-cols-3 gap-4">
+                                <button class="h-12 rounded border border-white/10 bg-[#131314] text-xs" onclick="setCustomBg('#131314')">Default Dark</button>
+                                <button class="h-12 rounded border border-white/10 bg-[#0a0a0f] text-xs" onclick="setCustomBg('#0a0a0f')">Deep Obsidian</button>
+                                <button class="h-12 rounded border border-white/10 bg-[#1a1212] text-xs" onclick="setCustomBg('#1a1212')">Crimson Tint</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation for Mobile devices -->
+        <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 h-16 md:hidden bg-surface-container-low/90 backdrop-blur-lg border-t border-white/10" id="bottom-nav">
+            <button class="flex flex-col items-center gap-0.5 text-on-surface-variant" onclick="switchModule('mod-malware')">
+                <span class="material-symbols-outlined text-xl">security</span><span class="text-[10px]">Guard</span>
+            </button>
+            <button class="flex flex-col items-center gap-0.5 text-on-surface-variant" onclick="switchModule('mod-scan')">
+                <span class="material-symbols-outlined text-xl">radar</span><span class="text-[10px]">Scan</span>
+            </button>
+            <button class="flex flex-col items-center gap-0.5 text-on-surface-variant" onclick="switchModule('mod-learning')">
+                <span class="material-symbols-outlined text-xl">school</span><span class="text-[10px]">Learn</span>
+            </button>
+            <button class="flex flex-col items-center gap-0.5 text-on-surface-variant" onclick="switchModule('mod-forum')">
+                <span class="material-symbols-outlined text-xl">quiz</span><span class="text-[10px]">Hub</span>
+            </button>
+        </nav>
+    </div>
+</div>
+
+<script>
+    const state = {
+        userName: '',
+        accentColor: 'green',
+        progressRate: 0,
+        activeModule: 'mod-malware',
+        permissionGranted: false,
+        currentQuizIdx: 0,
+        pendingAction: null,
+        quizBank: [
+            { q: "What does SQL Injection primarily exploit?", options: ["Unsanitized Database Inputs", "Firewall Ports"], correct: 0, exp: "SQL Injection injects database script variations to exploit unsanitized user inputs fields directly." },
+            { q: "Which deployment protocol secures files comprehensively?", options: ["FTP Plain Transmission", "SFTP SSH Encrypted Layer"], correct: 1, exp: "SFTP wraps file actions with SSH protocols ensuring automated connection handshakes remain secure." },
+            { q: "What defines a malicious Zero-Day event?", options: ["An unpatched, newly found loophole", "An expired certificate signature"], correct: 0, exp: "Zero-days reference software bugs completely hidden from manufacturers until malicious penetration launches." },
+            { q: "How do ransomware variants target individual profiles?", options: ["By encrypting directories for leverage", "By optimizing operating speeds"], correct: 0, exp: "Ransomware isolates records by locking keys away via mathematical operations, requesting transactional tokens to release access." }
+        ]
+    };
+
+    function init() {
+        renderNavs();
+        loadQuizQuestion();
+    }
+
+    function handleLogin() {
+        const input = document.getElementById('user-input');
+        if (!input || input.value.trim() === '') return;
+        state.userName = input.value.trim();
+        document.getElementById('auth-overlay').classList.add('opacity-0', 'pointer-events-none');
+        document.getElementById('display-name').textContent = state.userName.toUpperCase();
+        teacherMessage(`Access established. Welcome Operator ${state.userName}. Let us begin.`);
+    }
+
+    function switchModule(id) {
+        state.activeModule = id;
+        document.querySelectorAll('.module-view').forEach(mod => mod.classList.add('hidden'));
+        const activeView = document.getElementById(id);
+        if (activeView) activeView.classList.remove('hidden');
+        renderNavs();
+    }
+
+    function renderNavs() {
+        const sideNav = document.getElementById('side-nav-links');
+        const modules = [
+            { id: 'mod-malware', label: '1. Malware Guardian', icon: 'security' },
+            { id: 'mod-scan', label: '2. Deep Device Scan', icon: 'radar' },
+            { id: 'mod-learning', label: '3. Deep Learning Center', icon: 'school' },
+            { id: 'mod-forum', label: '4. Q&A Assessment', icon: 'quiz' }
+        ];
+        
+        sideNav.innerHTML = modules.map(item => `
+            <div onclick="switchModule('${item.id}')" class="nav-item ${state.activeModule === item.id ? 'bg-secondary-container/20 text-secondary-container font-bold border-l-4 accent-border' : 'text-on-surface-variant hover:bg-surface-container-high'} flex items-center gap-4 px-6 py-3 cursor-pointer rounded-lg transition-all">
+                <span class="material-symbols-outlined">${item.icon}</span>
+                <span class="font-label-sm">${item.label}</span>
+            </div>
+        `).join('');
+    }
+
+    function triggerScanWithPermission(type) {
+        if (!state.permissionGranted) {
+            state.pendingAction = type;
+            document.getElementById('permission-overlay').classList.remove('hidden');
+        } else {
+            type === 'url' ? scanUrl() : runDeepScan();
+        }
+    }
+
+    function grantPermission() {
+        state.permissionGranted = true;
+        closePermission();
+        if(state.pendingAction === 'url') scanUrl();
+        if(state.pendingAction === 'deep') runDeepScan();
+    }
+
+    function closePermission() {
+        document.getElementById('permission-overlay').classList.add('hidden');
+    }
+
+    function scanUrl() {
+        const target = document.getElementById('url-scanner').value;
+        const resBox = document.getElementById('scan-result');
+        const verdict = document.getElementById('scan-verdict');
+        const info = document.getElementById('scan-details');
+        const icon = document.getElementById('scan-icon');
+        
+        if (!target) return alert('Provide a link first.');
+        resBox.classList.remove('hidden');
+        verdict.textContent = "COMPILING SECURITY CHECKS...";
+        
+        setTimeout(() => {
+            if (target.includes('malicious') || target.includes('phishing')) {
+                verdict.textContent = "THREAT INFRASTRUCTURE DETECTED";
+                info.textContent = "Warning! Malicious phishing loop detected. Prevent credential logging immediately.";
+                resBox.className = "glass bg-error-container/40 p-6 rounded-lg border-l-4 border-error flex items-center gap-4";
+                icon.textContent = "gpp_bad";
+            } else {
+                verdict.textContent = "CLEAN PROTOCOL CONFIRMED";
+                info.textContent = "No malware hooks detected. The script array aligns completely with safe standards.";
+                resBox.className = "glass bg-surface-container-high/50 p-6 rounded-lg border-l-4 border-primary-container flex items-center gap-4 accent-border";
+                icon.textContent = "verified_user";
+                updateProgress(5);
+            }
+        }, 1200);
+    }
+
+    function runDeepScan() {
+        const logs = document.getElementById('scan-logs');
+        const progressCircle = document.getElementById('scan-progress-circle');
+        const textVal = document.getElementById('scan-val');
+        const startBtn = document.getElementById('start-scan-btn');
+        
+        startBtn.disabled = true;
+        let counter = 0;
+        logs.innerHTML = "<div class='text-secondary-container'>Mounting Virtual Hard Drive layers...</div>";
+        
+        const pathArrays = ["/kernel/drivers/net", "/sys/amd64/boot", "/users/local/auth/tokens.json", "/var/www/index.html"];
+        
+        const loop = setInterval(() => {
+            counter += 4;
+            if (counter <= 100) {
+                textVal.textContent = counter + "%";
+                const offset = 552.92 - (552.92 * counter) / 100;
+                progressCircle.style.strokeDashoffset = offset;
+                
+                const randomPath = pathArrays[Math.floor(Math.random() * pathArrays.length)];
+                logs.innerHTML += `<div>Scanning sandbox chunk: ${randomPath} -> <span class='text-primary-fixed-dim font-bold'>VERIFIED</span></div>`;
+                logs.scrollTop = logs.scrollHeight;
+            } else {
+                clearInterval(loop);
+                logs.innerHTML += "<div class='text-primary-container font-bold mt-2'>[SUCCESS] Deep Scan finished. Account integrity safe. Zero memory leak infections found.</div>";
+                startBtn.disabled = false;
+                updateProgress(15);
+            }
+        }, 100);
+    }
+
+    function showTopic(type) {
+        const container = document.getElementById('learning-content');
+        const tabs = document.getElementById('learning-tabs').children;
+        for (let t of tabs) t.classList.add('opacity-60');
+        
+        if (type === 'deploy') {
+            tabs[0].classList.remove('opacity-60');
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold accent-text">CI/CD Production Deployment Pipeline</h3>
+                    <p class="text-sm text-on-surface-variant">Learn how web applications route from local branches to live cloud hosting instances completely error-free.</p>
+                    <pre class="bg-black/40 p-4 rounded text-xs font-code-md text-primary-container accent-text"># Initialize Deploy\nnpm run production-build</pre>
+                    <button class="px-4 py-2 bg-primary-container text-on-primary font-bold text-xs rounded accent-bg text-black" onclick="updateProgress(10)">MARK COMPLETED (+10%)</button>
+                </div>`;
+        } else if (type === 'mysteries') {
+            tabs[1].classList.remove('opacity-60');
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold text-secondary-container accent-text">Deep Coding Mystery: The Haunted Stack Trace</h3>
+                    <p class="text-sm text-on-surface-variant">Find the security flaw hidden inside this deployment loop profile:</p>
+                    <pre class="bg-black/40 p-4 rounded text-xs font-code-md text-error">function connect(user) {\n  // MYSTERY FLUSH: passwords are leaked to root logs!\n  console.log("DEBUG_USER_DATA:" + user.password);\n}</pre>
+                    <button class="px-4 py-2 bg-secondary-container text-on-secondary font-bold text-xs rounded accent-bg text-black" onclick="updateProgress(15); alert('Flaw patched successfully! Logs sanitized. +15% progress saved.');">REMEDIATE FLAW AND SOLVE</button>
+                </div>`;
+        } else {
+            tabs[2].classList.remove('opacity-60');
+            container.innerHTML = `
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold text-tertiary-fixed-dim accent-text">Beginner Foundation Roadmaps</h3>
+                    <p class="text-sm text-on-surface-variant">Start your computational paths here. Master foundational variables, arrays, loop structures, and clear algorithm arrays easily.</p>
+                    <button class="px-4 py-2 bg-primary-container text-on-primary font-bold text-xs rounded accent-bg text-black" onclick="updateProgress(5)">COMPLETE PRE-REQS (+5%)</button>
+                </div>`;
+        }
+    }
+
+    function loadQuizQuestion() {
+        const q = state.quizBank[state.currentQuizIdx];
+        document.getElementById('current-q-num').textContent = state.currentQuizIdx + 1;
+        document.getElementById('quiz-question-text').textContent = q.q;
+        
+        const optionsContainer = document.getElementById('quiz-options');
+        optionsContainer.innerHTML = '';
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = "text-left p-4 rounded-lg bg-surface-container-low border border-white/5 hover:border-primary-fixed transition-all text-sm font-bold";
+            btn.textContent = opt;
+            btn.onclick = () => handleQuizAnswer(idx, btn);
+            optionsContainer.appendChild(btn);
+        });
+
+        document.getElementById('quiz-explanation').classList.add('hidden');
+        document.getElementById('quiz-next-btn').classList.add('hidden');
+    }
+
+    function handleQuizAnswer(idx, btn) {
+        const q = state.quizBank[state.currentQuizIdx];
+        const buttons = document.getElementById('quiz-options').children;
+        for(let b of buttons) b.disabled = true;
+
+        const expEl = document.getElementById('quiz-explanation');
+        expEl.classList.remove('hidden');
+        expEl.textContent = q.exp;
+
+        if (idx === q.correct) {
+            btn.className = "text-left p-4 rounded-lg border text-sm font-bold bg-primary-container/20 border-primary-container text-primary-container accent-border";
+            updateProgress(10);
+        } else {
+            btn.className = "text-left p-4 rounded-lg border text-sm font-bold bg-error/20 border-error text-error shake";
+        }
+        document.getElementById('quiz-next-btn').classList.remove('hidden');
+    }
+
+    function loadNextQuestion() {
+        state.currentQuizIdx = (state.currentQuizIdx + 1) % state.quizBank.length;
+        loadQuizQuestion();
+    }
+
+    function submitForum() {
+        const input = document.getElementById('forum-input');
+        if (!input.value.trim()) return;
+        const list = document.getElementById('forum-list');
+        
+        const userMsg = document.createElement('div');
+        userMsg.className = "flex flex-col gap-1 text-right items-end";
+        userMsg.innerHTML = `<div class="text-[10px] text-primary-container font-code-md">${state.userName || 'ANONYMOUS'}</div>
+                             <div class="bg-primary-container/10 border border-primary-container/20 p-3 rounded-lg rounded-tr-none text-sm">${input.value}</div>`;
+        list.appendChild(userMsg);
+        
+        const promptText = input.value;
+        input.value = '';
+        list.scrollTop = list.scrollHeight;
+
+        setTimeout(() => {
+            const botMsg = document.createElement('div');
+            botMsg.className = "flex flex-col gap-1";
+            botMsg.innerHTML = `<div class="text-[10px] text-secondary-container font-code-md">[AI FOUNDATION BOT]</div>
+                                 <div class="bg-surface-container-low p-3 rounded-lg rounded-tl-none border border-white/5 text-sm">Query noted. Analyzing "${promptText}". Recommendation uploaded to educational stack.</div>`;
+            list.appendChild(botMsg);
+            list.scrollTop = list.scrollHeight;
+            updateProgress(5);
+        }, 1000);
+    }
+
+    function teacherChat() {
+        const input = document.getElementById('teacher-input');
+        if (!input.value.trim()) return;
+        
+        const chat = document.getElementById('teacher-chat-history');
+        const entry = document.createElement('div');
+        entry.className = "flex flex-col gap-1 items-end ml-auto max-w-[85%]";
+        entry.innerHTML = `<div class="text-[10px] text-on-surface-variant font-bold">YOU</div>
+                           <div class="bg-surface-container-high p-4 rounded-2xl rounded-tr-none border border-white/5 text-sm">${input.value}</div>`;
+        chat.appendChild(entry);
+        
+        const query = input.value;
+        input.value = '';
+        chat.scrollTop = chat.scrollHeight;
+
+        setTimeout(() => {
+            teacherMessage(`Analyzing conceptual question: "${query}". Ensure your variables maintain secure boundaries during production arrays.`);
+        }, 1000);
+    }
+
+    function teacherMessage(msg) {
+        const chat = document.getElementById('teacher-chat-history');
+        if (!chat) return;
+        const entry = document.createElement('div');
+        entry.className = "flex flex-col gap-2 items-start max-w-[85%] animate-in fade-in slide-in-from-bottom-2";
+        entry.innerHTML = `
+            <div class="text-[10px] text-tertiary-fixed-dim font-bold accent-text">AK AI EXPERT</div>
+            <div class="bg-surface-container-low p-4 rounded-2xl rounded-tl-none border border-white/10 text-sm leading-relaxed">
+                ${msg}
+            </div>`;
+        chat.appendChild(entry);
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    function teacherResponse(type) {
+        if(type === 'explain_buffer') {
+            teacherMessage("Buffer overflows occur when code strings overwrite structured pointers. Always balance input lengths dynamically before processing logs.");
+        } else if(type === 'scold_laziness') {
+            teacherMessage("Malware payloads rely on unvalidated parameters. Implement cryptographic routines across your source scripts immediately.");
+        } else {
+            teacherMessage("To execute deployments smoothly, pack dependencies tightly within immutable container environments.");
+        }
+    }
+
+    function updateProgress(amt) {
+        state.progressRate = Math.min(state.progressRate + amt, 100);
+        document.getElementById('progress-percent').textContent = state.progressRate + "%";
+        document.getElementById('progress-bar').style.width = state.progressRate + "%";
+    }
+
+    // Color theme configuration switcher helper 
+    function setTheme(color) {
+        state.accentColor = color;
+        let targetHex = "#00ff41";
+        if (color === 'cyan') targetHex = "#00dce6";
+        if (color === 'purple') targetHex = "#edb1ff";
+        
+        document.documentElement.style.setProperty('--accent-glow', targetHex);
+        localStorage.setItem('ak-theme', color);
+    }
+
+    function setCustomBg(color) {
+        document.documentElement.style.setProperty('--custom-bg', color);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
