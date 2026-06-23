@@ -3,7 +3,7 @@
 }
 
 body { 
-    background-color: #11006e; var (--custom-bg); 
+    background-color: var(--custom-bg);
     transition: 0.5s ease; 
     background-size: cover; 
     background-position: center; 
@@ -20,13 +20,13 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--accent-glow); }
 
 .glass {
-    background: #0000f1b3;
+    background: hsl(0, 100%, 50%);
     backdrop-filter: blur(12px);
-    border: 1px solid rgb(248, 8, 8);
+    border: 1px solid rgb(255, 255, 255);
 }
 
 .glass-header {
-    border-top: 1px solid #ffffff;
+    border-top: 1px solid #000000;
 }
 
 @keyframes pulse-glow {
