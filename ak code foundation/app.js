@@ -291,7 +291,7 @@ function updateProgress(amt) {
 }
 
 function setTheme(color) {
-    state.accentColor = color;
+    state.accentColor = color;"rgb(255, 10, 10)";
     let targetHex = "#00ff41";
     if (color === 'cyan') targetHex = "#00dce6";
     if (color === 'purple') targetHex = "#edb1ff";
